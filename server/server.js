@@ -1,5 +1,7 @@
 require('./config/config');
+
 const express = require('express');
+const mongoose = require('mongoose');
 const app = express();
 //boyd parser es para manejar los valores que nos envien mediante post
 //es una libreria
@@ -13,52 +15,20 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //tiene que ser declarado a fuerza
 app.use(bodyParser.json());
 
-app.get('/usuario', function (req, res) {
-    res.json('usuario')
-});
+app.use(require('./routes/administrators'));
 
-app.post('/usuario', function (req, res) {
 
-    //con el req.body se obtienen los valores que son enviados
-    let body = req.body;
+//comando de conexion para una base de datos en mongo
+//utilizando una funcion de tipo flecha
+//es una libreria que se tiene que descargar mediante npm
+//video 92
+mongoose.connect(process.env.URLDB, {useNewUrlParser: true})
+.then(()=>console.log("Base de datos ONLINE"))
+.catch((err)=>console.log(err));
 
-    if(body.nombre ===undefined)
-    {
-        //con res, mandamos una respuesta
-        //y con el status indicamos el numero para saber que es lo que paso
-        //en esta ocasion es un error 400
-        //retornando el json
-        res.status(400).json({
-            ok: false,
-            mensaje: 'El nombre es necesario'
-        });
-    }
-    else
-    {
-        res.json({
-            persona: body
-        });
-    }
-
-    
-});
-
-app.put('/usuario/:id', function (req, res) {
-
-    let id = req.params.id;
-    res.json({
-        id
-    });
-});
-
-app.delete('/usuario', function (req, res) {
-    res.json('delete usuario')
-});
-
-app.get('/', function (req, res) {
-  res.json('Hello World')
-});
- 
+//process.env.PORT es una variable de entorno
+//que se encuentra en el archivo config
+//donde indicamos el puerto donde va a trabajar la aplicación
 app.listen(process.env.PORT, () => {
     console.log("escuchando el puerto");
 })
