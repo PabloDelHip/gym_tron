@@ -19,7 +19,7 @@ if(process.env.NODE_ENV ==='dev')
 }
 else
 {
-    urlDB = 'mongodb://gym-user:GymUser.2018@ds363996.mlab.com:63996/db_tron';
+    urlDB = process.env.MONGO_URI;
 }
 
 process.env.URLDB = urlDB;
