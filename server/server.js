@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //tiene que ser declarado a fuerza
 app.use(bodyParser.json());
 
-app.use(require('./routes/administrators'));
+app.use(require('./routes/index'));
 
 
 //comando de conexion para una base de datos en mongo

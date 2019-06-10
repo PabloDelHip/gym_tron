@@ -5,10 +5,18 @@ const bcryt = require('bcrypt');
 const _ = require('underscore');
 //llamos al modelo donde se va a realizar toda la interaccion con la base de datos
 const Administrator = require('../models/administrator');
+const { verificaToken, verificaAdminRole } = require('../middlewares/autenticacion');
 const app = express();
 
+//el middleware se coloca en la segunda posicion con una funcion de flecha
+app.get('/admin', verificaToken, (req, res) => {
 
-app.get('/admin', function (req, res) {
+    //datos obtenidos del middleware
+    // return res.json({
+    //     admin: req.admin,
+    //     nombre: req.admin.nombre,
+    //     email:req.admin.email,
+    // });
 
     //mandamos los valores mediante la ruta
     //el desde y el limite, para realizar una paginación
@@ -47,7 +55,7 @@ app.get('/admin', function (req, res) {
                     });
 });
 
-app.post('/admin', function (req, res) {
+app.post('/admin', [verificaToken,verificaAdminRole],function (req, res) {
 
     //con el req.body se obtienen los valores que son enviados
     let body = req.body;
@@ -103,7 +111,7 @@ app.post('/admin', function (req, res) {
     
 });
 
-app.put('/admin/:id', function (req, res) {
+app.put('/admin/:id', [verificaToken,verificaAdminRole],function (req, res) {
 
     let id = req.params.id;
     //pick es una funcion de underscore donde le indicamos que valores queremos que tome del arreglo
@@ -129,7 +137,7 @@ app.put('/admin/:id', function (req, res) {
     });
 });
 
-app.delete('/admin/:id', function (req, res) {
+app.delete('/admin/:id', [verificaToken,verificaAdminRole],function (req, res) {
     
     let id = req.params.id;
     // Administrator.findByIdAndRemove(id,(err,adminDelete)=>{
