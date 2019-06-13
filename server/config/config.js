@@ -38,6 +38,11 @@ else
 
 process.env.URLDB = urlDB;
 
+//================
+//GOOGLE CLIENT ID
+//================
+process.env.CLIENT_ID = process.env.CLIENT_ID || '341065292986-13fh6jv8iodlq1j9p4que7cndslfhcgd.apps.googleusercontent.com';
+
 // mongodb://<dbuser>:<dbpassword>@ds363996.mlab.com:63996/db_tron
 // mongodb://localhost:27017/db_tron
 
