@@ -22,6 +22,7 @@ app.use(express.static(path.resolve(__dirname,'../public')));
 
 
 app.use(require('./routes/index'));
+app.use(require('./routes/product'));
 
 
 //comando de conexion para una base de datos en mongo

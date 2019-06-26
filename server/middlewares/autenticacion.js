@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 let verificaToken = (req,res,next) => {
 
     let token = req.get('token');
+    // console.log(token);
 
     jwt.verify(token, process.env.SEED,(err,decoded)=>{
         if(err)
@@ -24,6 +25,7 @@ let verificaToken = (req,res,next) => {
         //el next es para salir de esta funcion despues de la validacion
         //si no se coloca, la aplicacion no continua
         req.admin = decoded.admin;
+       
         next();
     });
 
@@ -52,7 +54,34 @@ let verificaAdminRole = (req,res,next) => {
     
 };
 
+//=================
+// Verificar Token para imagen
+//=================
+let verificaTokenImg = (req,res,next) => {
+
+    //el token es req.query.token es igual a cuando se recibe una varibale de tipo get mediante php
+    //por la url
+    let token = req.query.token;
+
+    jwt.verify(token, process.env.SEED,(err,decoded)=>{
+        if(err)
+        {
+            return res.status(401).json({
+                ok:false,
+                err: {
+                    message :'token no valido'
+                }
+            });
+        }
+        req.admin = decoded.admin;
+       
+        next();
+    });
+
+}
+
 module.exports = {
     verificaToken,
-    verificaAdminRole
+    verificaAdminRole,
+    verificaTokenImg,
 }

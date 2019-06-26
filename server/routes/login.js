@@ -21,7 +21,7 @@ app.post('/login',(req,res)=>{
                 err
             });
         }
-    
+        
         if(!adminDB)
         {
             return res.status(400).json({
@@ -77,9 +77,11 @@ async function verify( token ) {
   }
 //   verify().catch(console.error);
 
+//esta funcion se llama mediante el index.html via ajax y es donde se realiza el login con google
 app.post('/google',async(req,res)=>{
     let token = req.body.idtoken;
 
+    //se manda el token que llega por respuesta 
     let googleUser = await verify(token)
                     .catch(e=>{
                         return res.status(403).json({
